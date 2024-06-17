@@ -1,0 +1,35 @@
+Ligação do Banco de dados MongoDB com o Electron
+
+
+passo 1: 
+Ter um servidor de banco de dados com o Electron 
+- localhost (instalado com o windows) | só para desenvolvimento 
+- físico (baseado no Linux) em uma rede local (switch) (sistemas desktop)
+- nuvem (Atlas(free 540mb AWS)) (backend (netflix, e-comerce etc.))
+
+passo 2:
+Instalar o mongoose (framework para trabalhar o MongoDB)
+
+passo 3:
+Criar um arquivo database.js na raiz e configurar a conexão com o banco de dados
+
+passo 4:
+Importar no main.js, os métodos para conectar e disconectar o banco de dados
+
+passo 5:
+Na janela principal(main.js), deixar o objeto win público 
+ex:const win (errado) let win (x)
+
+passo 6:
+Criar uma função para verificar o 
+status de conexão (criar após a última linha do main.js) este passo poderia estar 
+junto com o app.whenReady(), por uma questão de organização e melhor entendimento
+foi criado fora
+
+passo 7:
+dentro de app.whenReady()
+executar a função statusConexao()
+
+passo 8:
+Importante! dentro de app.whenReady()
+criar um método para desconectar o banco de dados ao encerrar a janela principal
