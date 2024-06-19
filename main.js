@@ -235,3 +235,8 @@ const statusConexao = async () => {
         win.webContents.send('db-status', `Erro de conexão: ${error.message}`)
     }
 }
+
+// exemplo 3: recebimento do renderer de uma ação a ser executada
+ipcMain.on('open-about', () => {
+    aboutWindow()
+})
