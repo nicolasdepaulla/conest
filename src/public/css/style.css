@@ -1,0 +1,23 @@
+/* css personalizado
+@author Nicolas de Paula Pacheco */
+
+h1 {
+    color: #f0d529;
+}
+
+.container p {
+    color: #000000;
+}
+
+/* rodapé */
+footer {
+    background-color: #007acc;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+footer p {
+    color: azure;
+    margin: 10px 0px 10px 10px;
+}
