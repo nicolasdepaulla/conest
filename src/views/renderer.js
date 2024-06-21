@@ -13,4 +13,7 @@
  function sobre() {
      api.openAbout ()
  }
+ function clientes() {
+    api.clientesWindow ()
+ }
  

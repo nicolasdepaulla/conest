@@ -240,3 +240,15 @@ const statusConexao = async () => {
 ipcMain.on('open-about', () => {
     aboutWindow()
 })
+// clientes
+ipcMain.on('open-clientes', () => {
+    clientesWindow()
+})
+// fornecedores
+ipcMain.on('open-fornecedores', () => {
+    fornecedoresWindow()
+})
+// produtos
+ipcMain.on('open-produtos', () => {
+    produtosWindow()
+})
