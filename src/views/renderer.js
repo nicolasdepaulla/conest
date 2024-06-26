@@ -11,9 +11,15 @@
  
  //  função que é executada quando o botão for clicado
  function sobre() {
-     api.openAbout ()
+     api.openAbout()
  }
  function clientes() {
-    api.clientesWindow ()
+    api.openclientes()
+ }
+ function fornecedores() {
+    api.openfornecedores()
+ }
+ function produto() {
+    api.openprodutos()
  }
  

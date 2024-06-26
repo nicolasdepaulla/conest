@@ -27,18 +27,19 @@ const createWindow = () => {
 let about // resolver bug de arbertura de várias janelas (bug1) abrir
 
 const aboutWindow = () => {
-    // nativeTheme.themeSource = 'dark'
-    // se a janela about não estiver aberta
+const father = BrowserWindow.getFocusedWindow()
+    if(father){
     if (!about) {
-        about = new BrowserWindow({
-            width: 360, // largura  da janela
-            height: 220, // altura da janela
+            about = new BrowserWindow({
+            width: 450, // largura  da janela
+            height: 320, // altura da janela
             icon: './src/public/img/about.png',
-            resizable: false, // evitar o redimensionamneto
-            // titleBarStyle: 'hidden', // esconder barra de titulo e menu
-            autoHideMenuBar: true // esconder o menu(apenas)
-
+            autoHideMenuBar: true, // esconder o menu(apenas)
+            resizable: false,
+            parent: father,
+            modal: true
         })
+    }
     }
 
 
@@ -55,16 +56,20 @@ let clientes// resolver bug de arbertura de várias janelas (bug1) abrir
 const clientesWindow = () => {
     // nativeTheme.themeSource = 'dark'
     // se a janela about não estiver aberta
+    const father = BrowserWindow.getFocusedWindow()
+    if(father){
     if (!clientes) {
             clientes = new BrowserWindow({
-            width: 360, // largura  da janela
-            height: 220, // altura da janela
+            width:  800, // largura  da janela
+            height: 600, // altura da janela
             icon: './src/public/img/clientes.png',
             resizable: false, // evitar o redimensionamneto
             // titleBarStyle: 'hidden', // esconder barra de titulo e menu
-            autoHideMenuBar: true // esconder o menu(apenas)
-
+            autoHideMenuBar: true, // esconder o menu(apenas)
+            parent: father,
+            modal: true    
         })
+    }
     }
 
 
@@ -81,16 +86,20 @@ let fornecedores// resolver bug de arbertura de várias janelas (bug1) abrir
 const fornecedoresWindow = () => {
     // nativeTheme.themeSource = 'dark'
     // se a janela about não estiver aberta
+    const father = BrowserWindow.getFocusedWindow()
+    if(father){
     if (!fornecedores) {
             fornecedores = new BrowserWindow({
-            width: 360, // largura  da janela
-            height: 220, // altura da janela
+            width:  1280, // largura  da janela
+            height: 720, // altura da janela
             icon: './src/public/img/fornecedores.png',
             resizable: false, // evitar o redimensionamneto
             // titleBarStyle: 'hidden', // esconder barra de titulo e menu
-            autoHideMenuBar: true // esconder o menu(apenas)
-
+            autoHideMenuBar: true, // esconder o menu(apenas)
+            parent: father,
+            modal: true
         })
+    }
     }
 
 
@@ -107,17 +116,21 @@ let produtos// resolver bug de arbertura de várias janelas (bug1) abrir
 const produtosWindow = () => {
     // nativeTheme.themeSource = 'dark'
     // se a janela about não estiver aberta
+    const father = BrowserWindow.getFocusedWindow()
+    if(father){
     if (!produtos) {
             
             produtos = new BrowserWindow({
-            width: 360, // largura  da janela
-            height: 220, // altura da janela
-            icon: './src/public/img/produtos.png',
+            width: 800, // largura  da janela
+            height: 600, // altura da janela
+            icon: './src/public/img/produto.png',
             resizable: false, // evitar o redimensionamneto
             // titleBarStyle: 'hidden', // esconder barra de titulo e menu
-            autoHideMenuBar: true // esconder o menu(apenas)
-
+            autoHideMenuBar: true, // esconder o menu(apenas)
+            parent: father,
+            modal: true
         })
+    }
     }
 
 

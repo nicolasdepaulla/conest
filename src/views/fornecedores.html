@@ -1,24 +1,128 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- evitar ataques de Cross Site Scripting (injeção de dados)-->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
-    <title>Fornecedores</title>
-        <!-- bootstrap -->
-        <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <title>Fornecedor</title>
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
 </head>
-
+ 
 <body>
     <div class="container">
-    <h1>Fornecedores</h1>
-</div>
-<!-- bootstrap -->
-<script src="../public/js/bootstrap.min.js"></script>
-
-<!-- css personalizado -->
-<link rel="stylesheet" href="../public/css/style.css">
+        <h1>Fornecedor</h1>
+        <!-- Caixa de input usada na pesquisa de um nome de Fornecedor-->
+        <form class="row g-3" id="frmFornecedor">
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="inputSearch" maxlength="30" spellcheck="false">
+            </div>
+            <!-- Botão de pesquisa de cliente Crud -->
+            <div class="col-md-4">
+                <br>
+                <button type="button" class="btn btn-success" id="btnRead">Buscar</button>
+            </div>
+            <hr class="border border-primary border-1 opacity-75">
+ 
+            <!--CNPJ do Fornecedor -->
+            <div class="col-md-4">
+                <label for="inputCnpj" class="form-label">CNPJ</label>
+                <input type="number" class="form-control" id="inputFone" required maxlength="15" spellcheck="false">
+            </div>
+ 
+            <!--Telefone do Fornecedor -->
+            <div class="col-md-4">
+                <label for="inputFone" class="form-label">Telefone</label>
+                <input type="number" class="form-control" id="inputFone" required maxlength="10" spellcheck="false">
+            </div>
+            <!--E-mail do Fornecedor -->
+            <div class="col-md-8">
+                <label for="inputEmail" class="form-label">E-Mail</label>
+                <input type="text" class="form-control" id="inputEmail" maxlength="30" spellcheck="false">
+            </div>
+            <hr class="border border-primary border-1 opacity-75">
+ 
+            <!--Endereço do Fornecedor -->
+            <div class="col-md-2">
+                <label for="inputCep" class="form-label">CEP</label>
+                <input type="number" class="form-control" id="inputCep" maxlength="10" spellcheck="false">
+            </div>
+            <!-- Botão de pesquisa de cliente Crud -->
+            <div class="col-md-1">
+                <button type="button" class="btn btn-success" id="btnCep">Buscar</button>
+            </div>
+            <!--Buscar por CEP -->
+            <div class="col-md-4">
+                <label for="inputEnd" class="form-label">Endereço</label>
+                <input type="text" class="form-control" id="inputLog" required maxlength="15" spellcheck="false">
+            </div>
+         
+            <!-- Numero do Estabelicimento -->
+            <div class="col-md-1">
+                <label for="inputnumb" class="form-label">Numero</label>
+                <input type="number" class="form-control" id="inputCep" required maxlength="15" spellcheck="false">
+            </div>
+              <!--Complemento-->
+              <div class="col-md-3">
+                <label for="inputComp" class="form-label">Complemento</label>
+                <input type="text" class="form-control" id="inputComp" required maxlength="15" spellcheck="false">
+            </div>
+            <div class="col-md-5">
+                <label for="inputBairro" class="form-label">Bairro</label>
+                <input type="text" class="form-control" id="inputBairro" required maxlength="15" spellcheck="false">
+            </div>
+            <div class="col-md-3">
+                <label for="inputEst" class="form-label">Estado</label>
+                <input type="text" class="form-control" id="inputEst" required maxlength="15" spellcheck="false">
+            </div>
+            <div class="col-md-1">
+                <label for="inputUf" class="form-label">UF</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option value="0" selected>AC</option>
+                    <option value="1">AL</option>,<option value="2">AP</option>                  
+                    <option value="3">AM</option>,<option value="4">BA</option>
+                    <option value="5">CE</option>,<option value="6">DF</option>
+                    <option value="7">ES</option>,<option value="8">GO</option>
+                    <option value="9">MA</option>,<option value="10">MT</option>
+                    <option value="11">MS</option>,<option value="12">MG</option>
+                    <option value="13">PA</option>,<option value="14">PB</option>
+                    <option value="15">PR</option>,<option value="16">PE</option>
+                    <option value="17">PI</option>,<option value="18">RJ</option>
+                    <option value="19">RN</option>,<option value="20">RS</option>
+                    <option value="21">RO</option>,<option value="22">RR</option>
+                    <option value="23">SC</option>,<option value="24">SP</option>
+                    <option value="25">SE</option>,<option value="26">TO</option>
+            </select>
+ 
+                    </div>
+         
+            <!-- Botões -->
+            <div class="col-md-6">
+                <br>
+                <button type="submit" class="btn btn-success" id="btnCreate">Adicionado</button>
+                <button type="button" class="btn btn-warning" id="btnUpdate">Editar</button>
+                <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
+                <button type="button" class="btn btn-info" id="btnLimpar">Limpar</button>
+            </div>
+    </div>
+    </div>
+ 
+ 
+ 
+ 
+    <!-- Id MngoDB ocultar esta linha-->
+    <div class="col-md-3">
+        <input type="text" class="form-control" id="inputId" placeholder="id">
+        <br>
+    </div>
+    <script src="../public/js/bootstrap.min.js"></script>
+    <!-- css personalizado -->
+    <link rel="stylesheet" href="../public/css/style.css">
+ 
+    </div>
+ 
+ 
 </body>
-
+ 
 </html>
