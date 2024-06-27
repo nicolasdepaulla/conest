@@ -63,10 +63,9 @@ footer p {
     color: #000;
 }
 #btnRead {
-    margin-top: -36px;
+    margin-top: 1px;
 }
 #btnCep {
-   
     margin-top: 32px;
  }
  #inputLog{
@@ -91,4 +90,6 @@ footer p {
     border: gray solid 1px;
     color: #000;
 }
-
+#uf {
+    margin-top: 8px;
+}

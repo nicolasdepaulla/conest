@@ -1,128 +1,114 @@
 <!DOCTYPE html>
 <html lang="pt-br">
- 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- evitar ataques de Cross Site Scripting (injeção de dados)-->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
-    <title>Fornecedor</title>
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/style.css">
+    <title>Fornecedores</title>
 </head>
- 
+
 <body>
+
     <div class="container">
         <h1>Fornecedor</h1>
-        <!-- Caixa de input usada na pesquisa de um nome de Fornecedor-->
         <form class="row g-3" id="frmFornecedor">
+            <!-- Caixa de input usada na pesquisa do nome do fornecedor -->
             <div class="col-md-6">
                 <input type="text" class="form-control" id="inputSearch" maxlength="30" spellcheck="false">
             </div>
-            <!-- Botão de pesquisa de cliente Crud -->
-            <div class="col-md-4">
-                <br>
-                <button type="button" class="btn btn-success" id="btnRead">Buscar</button>
+            <!-- Botão de pesquisa de fornecedor CRUD read -->
+            <div class="col-md-6">
+                <button type="button" class="btn btn-outline-success" id="btnRead">Buscar</button>
             </div>
             <hr class="border border-primary border-1 opacity-75">
- 
-            <!--CNPJ do Fornecedor -->
+            <!-- id MongoDB -->
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="inputId" placeholder="id">
+                <br>
+            </div>
+            <!-- Nome do fornecedor -->
+            <div class="col-md-8">
+                <label for="inputName" class="form-label">Razão Social</label>
+                <input type="text" class="form-control" id="inputName" maxlength="50" spellcheck="false" required>
+            </div>
+            <!-- CNPJ do fornecedor -->
             <div class="col-md-4">
                 <label for="inputCnpj" class="form-label">CNPJ</label>
-                <input type="number" class="form-control" id="inputFone" required maxlength="15" spellcheck="false">
+                <input type="number" class="form-control" id="inputCnpj" spellcheck="false" required>
             </div>
- 
-            <!--Telefone do Fornecedor -->
+            <!-- Telefone do fornecedor -->
             <div class="col-md-4">
-                <label for="inputFone" class="form-label">Telefone</label>
-                <input type="number" class="form-control" id="inputFone" required maxlength="10" spellcheck="false">
+                <label for="inputPhone" class="form-label">Telefone</label>
+                <input type="number" class="form-control" id="inputPhone" spellcheck="false" required>
             </div>
-            <!--E-mail do Fornecedor -->
-            <div class="col-md-8">
-                <label for="inputEmail" class="form-label">E-Mail</label>
-                <input type="text" class="form-control" id="inputEmail" maxlength="30" spellcheck="false">
+            <!-- Email do fornecedor -->
+            <div class="col-md-5">
+                <label for="inputAddress" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="inputAddress" maxlength="50" spellcheck="false" required>
+                <br>
             </div>
             <hr class="border border-primary border-1 opacity-75">
- 
-            <!--Endereço do Fornecedor -->
-            <div class="col-md-2">
-                <label for="inputCep" class="form-label">CEP</label>
-                <input type="number" class="form-control" id="inputCep" maxlength="10" spellcheck="false">
-            </div>
-            <!-- Botão de pesquisa de cliente Crud -->
-            <div class="col-md-1">
-                <button type="button" class="btn btn-success" id="btnCep">Buscar</button>
-            </div>
-            <!--Buscar por CEP -->
-            <div class="col-md-4">
-                <label for="inputEnd" class="form-label">Endereço</label>
-                <input type="text" class="form-control" id="inputLog" required maxlength="15" spellcheck="false">
-            </div>
-         
-            <!-- Numero do Estabelicimento -->
-            <div class="col-md-1">
-                <label for="inputnumb" class="form-label">Numero</label>
-                <input type="number" class="form-control" id="inputCep" required maxlength="15" spellcheck="false">
-            </div>
-              <!--Complemento-->
-              <div class="col-md-3">
-                <label for="inputComp" class="form-label">Complemento</label>
-                <input type="text" class="form-control" id="inputComp" required maxlength="15" spellcheck="false">
-            </div>
-            <div class="col-md-5">
-                <label for="inputBairro" class="form-label">Bairro</label>
-                <input type="text" class="form-control" id="inputBairro" required maxlength="15" spellcheck="false">
-            </div>
+            <!-- CEP -->
             <div class="col-md-3">
-                <label for="inputEst" class="form-label">Estado</label>
-                <input type="text" class="form-control" id="inputEst" required maxlength="15" spellcheck="false">
+                <label for="inputCep" class="form-label">CEP</label>
+                <input type="text" class="form-control" id="inputCep" maxlength="8" spellcheck="false" required>
             </div>
+            <!-- Botão de pesquisa de CEP -->
             <div class="col-md-1">
-                <label for="inputUf" class="form-label">UF</label>
-                <select class="form-select" aria-label="Default select example">
-                    <option value="0" selected>AC</option>
-                    <option value="1">AL</option>,<option value="2">AP</option>                  
-                    <option value="3">AM</option>,<option value="4">BA</option>
-                    <option value="5">CE</option>,<option value="6">DF</option>
-                    <option value="7">ES</option>,<option value="8">GO</option>
-                    <option value="9">MA</option>,<option value="10">MT</option>
-                    <option value="11">MS</option>,<option value="12">MG</option>
-                    <option value="13">PA</option>,<option value="14">PB</option>
-                    <option value="15">PR</option>,<option value="16">PE</option>
-                    <option value="17">PI</option>,<option value="18">RJ</option>
-                    <option value="19">RN</option>,<option value="20">RS</option>
-                    <option value="21">RO</option>,<option value="22">RR</option>
-                    <option value="23">SC</option>,<option value="24">SP</option>
-                    <option value="25">SE</option>,<option value="26">TO</option>
-            </select>
- 
-                    </div>
-         
-            <!-- Botões -->
-            <div class="col-md-6">
-                <br>
-                <button type="submit" class="btn btn-success" id="btnCreate">Adicionado</button>
-                <button type="button" class="btn btn-warning" id="btnUpdate">Editar</button>
-                <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
-                <button type="button" class="btn btn-info" id="btnLimpar">Limpar</button>
+                <button type="button" class="btn btn-outline-success" id="btnCep" onclick="pegarCep()">Buscar</button>
             </div>
-    </div>
-    </div>
- 
- 
- 
- 
-    <!-- Id MngoDB ocultar esta linha-->
-    <div class="col-md-3">
-        <input type="text" class="form-control" id="inputId" placeholder="id">
-        <br>
+            <!-- Logradouro -->
+            <div class="col-md-4">
+                <label for="inputLogradouro" class="form-label">Endereço</label>
+                <input type="text" class="form-control" id="inputLogradouro" maxlength="50" spellcheck="false" required>
+            </div>
+            <!-- Número -->
+            <div class="col-md-1">
+                <label for="inputNumero" class="form-label">Número</label>
+                <input type="number" class="form-control" id="inputNumero" spellcheck="false" required>
+            </div>
+            <!-- Complemento -->
+            <div class="col-md-2">
+                <label for="inputComplemento" class="form-label">Complemento</label>
+                <input type="text" class="form-control" id="inputComplemento" spellcheck="false">
+            </div>
+            <!-- Bairro -->
+            <div class="col-md-3">
+                <label for="inputBairro" class="form-label">Bairro</label>
+                <input type="text" class="form-control" id="inputBairro" spellcheck="false" required>
+            </div>
+            <!-- Cidade -->
+            <div class="col-md-3">
+                <label for="inputCidade" class="form-label">Cidade</label>
+                <input type="text" class="form-control" id="inputCidade" spellcheck="false" required>
+            </div>
+            <!-- UF -->
+            <div class="col-md-1">
+            <label for="uf">UF</label>
+            <select id="uf" class="form-select" required>
+                <option selected></option>
+                <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option><option value="AM">AM</option>
+                <option value="BA">BA</option><option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option>
+                <option value="GO">GO</option><option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+                <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option><option value="PR">PR</option>
+                <option value="PE">PE</option><option value="PI">PI</option><option value="RJ">RJ</option><option value="RN">RN</option>
+                <option value="RS">RS</option><option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+                <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+              </select>
+            </div>
+            <!-- Botões -->
+            <div class="col-12">
+                <button type="submit" class="btn btn-outline-success" id="btnCreate">Adicionar</button>
+                <button type="button" class="btn btn-outline-warning" id="btnUpdate">Editar</button>
+                <button type="button" class="btn btn-outline-danger" id="btnDelete">Excluir</button>
+                <button type="reset" class="btn" id="btnReset"></button>
+            </div>
+        </form>
     </div>
     <script src="../public/js/bootstrap.min.js"></script>
-    <!-- css personalizado -->
-    <link rel="stylesheet" href="../public/css/style.css">
- 
-    </div>
- 
- 
+    <script src="fetch.js"></script>
 </body>
- 
+
 </html>
