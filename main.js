@@ -141,6 +141,37 @@ const produtosWindow = () => {
     })
 }
 
+// janela de relatórios
+let relatorios// resolver bug de arbertura de várias janelas (bug1) abrir
+
+const relatoriosWindow = () => {
+    // nativeTheme.themeSource = 'dark'
+    // se a janela about não estiver aberta
+    const father = BrowserWindow.getFocusedWindow()
+    if(father){
+    if (!relatorios) {
+            
+            relatorios = new BrowserWindow({
+            width: 800, // largura  da janela
+            height: 600, // altura da janela
+            icon: './src/public/img/relatorio.png',
+            resizable: false, // evitar o redimensionamneto
+            // titleBarStyle: 'hidden', // esconder barra de titulo e menu
+            autoHideMenuBar: true, // esconder o menu(apenas)
+            parent: father,
+            modal: true
+        })
+    }
+    }
+
+
+    relatorios.loadFile('./src/views/relatorios.html')
+    // bug 2 (reabrir a janela se estiver fechada)
+    relatorios.on('closed', () => {
+        relatorios = null
+    })
+}
+
 // iniciar a aplicação
 app.whenReady().then(() => {
 
@@ -222,6 +253,15 @@ const template = [
 
     },
     {
+        label: 'relatorios',
+        submenu: [{
+
+           label:'relatorios',
+           click: () => relatoriosWindow()
+        }
+        ]
+    },
+    {
         label: 'ajuda',
         submenu: [{
 
@@ -264,4 +304,8 @@ ipcMain.on('open-fornecedores', () => {
 // produtos
 ipcMain.on('open-produtos', () => {
     produtosWindow()
+})
+// relatorios
+ipcMain.on('open-relatorios', () => {
+    relatoriosWindow()
 })

@@ -22,4 +22,7 @@
  function produto() {
     api.openprodutos()
  }
+ function relatorios() {
+   api.openrelatorios()
+}
  

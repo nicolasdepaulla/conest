@@ -6,19 +6,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
     <title>Produtos</title>
-        <!-- bootstrap -->
-        <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    
 </head>
 
 <body>
     <div class="container">
     <h1>Produtos</h1>
 </div>
-<!-- bootstrap -->
-<script src="../public/js/bootstrap.min.js"></script>
+    <br>
+    <div class="container">
+        <form class="row g-3" id="frmprodutos">
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="barcodeProduct" spellcheck="false">
+            </div>
+            <div class="col-md-4">
+                <img src="../public/img/codbarra.png" class="barcode" alt="barcode">
+            </div>
+            <hr class="border border-primary border-1 opacity-75">
+            <!-- id do produto (não econder - código do produto) -->
+            <div class="col-md-6">
+                <label for="idProduct" class="form-label">Id</label>
+                <input type="text" class="form-control" id="idProduct" spellcheck="false">
+            </div>
+            <!-- código de barras -->
+            <div class="col-md-6">
+                <label for="barcode" class="form-label">Código de barras</label>
+                <input type="text" class="form-control" id="barcode" spellcheck="false">
+            </div>
+            
+            <!-- Nome do produto -->
+            <div class="col-md-7">
+                <label for="nameProduct" class="form-label">Produto</label>
+                <input type="text" class="form-control" id="nameProduct" spellcheck="false">
+            </div>
+            <!-- imagem do produto -->
+            <div class="col-md-5">
+                <img src="../public/img/images.png" alt="imagem do produto" id="imageProduct">
+            </div>
+            <!-- upload da imagem do produto -->
+            <input type="file" id="uploadProduct">
+            <!-- ID do MongoDB ocultar esta linha -->
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="inputId" placeholder="id">
+                <br>
 
-<!-- css personalizado -->
-<link rel="stylesheet" href="../public/css/style.css">
+            </div>
+            <!-- Botões -->
+            <div class="col-12">
+                <br>
+                <button type="submit" class="btn btn-outline-success" id="btnCreate">Adicionar</button>
+                <button type="button" class="btn btn-outline-warning" id="btnUpdate">Editar</button>
+                <button type="button" class="btn btn-outline-danger" id="btnDelete">Excluir</button>
+                <button type="reset" class="btn" id="btnReset"></button>
+            </div>
+        </form>
+    </div>
+    <!-- bootstrap -->
+    <script src="../public/js/bootstrap.min.js"></script>
+
+    <!-- css personalizado -->
+    <link rel="stylesheet" href="../public/css/style.css">
 </body>
 
 </html>
