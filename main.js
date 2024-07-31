@@ -1,10 +1,13 @@
 const { ipcMain } = require('electron')
 const { app, BrowserWindow, Menu, shell } = require('electron/main')
 const path = require('node:path')
+const Cliente = require('./src/models/Cliente')
 
 // importa o módulo de conexão
 const { conectar, desconectar } = require('./database.js')
 
+// importação do Schema (model) das coleções("tabelas")
+const clienteSchema = require('./src/models/Cliente.js')
 
 // janela principal (definir objeto win como variável publica)
 let win
@@ -27,19 +30,19 @@ const createWindow = () => {
 let about // resolver bug de arbertura de várias janelas (bug1) abrir
 
 const aboutWindow = () => {
-const father = BrowserWindow.getFocusedWindow()
-    if(father){
-    if (!about) {
+    const father = BrowserWindow.getFocusedWindow()
+    if (father) {
+        if (!about) {
             about = new BrowserWindow({
-            width: 450, // largura  da janela
-            height: 320, // altura da janela
-            icon: './src/public/img/about.png',
-            autoHideMenuBar: true, // esconder o menu(apenas)
-            resizable: false,
-            parent: father,
-            modal: true
-        })
-    }
+                width: 450, // largura  da janela
+                height: 320, // altura da janela
+                icon: './src/public/img/about.png',
+                autoHideMenuBar: true, // esconder o menu(apenas)
+                resizable: false,
+                parent: father,
+                modal: true
+            })
+        }
     }
 
 
@@ -57,19 +60,22 @@ const clientesWindow = () => {
     // nativeTheme.themeSource = 'dark'
     // se a janela about não estiver aberta
     const father = BrowserWindow.getFocusedWindow()
-    if(father){
-    if (!clientes) {
+    if (father) {
+        if (!clientes) {
             clientes = new BrowserWindow({
-            width:  800, // largura  da janela
-            height: 600, // altura da janela
-            icon: './src/public/img/clientes.png',
-            resizable: false, // evitar o redimensionamneto
-            // titleBarStyle: 'hidden', // esconder barra de titulo e menu
-            autoHideMenuBar: true, // esconder o menu(apenas)
-            parent: father,
-            modal: true    
-        })
-    }
+                width: 800, // largura  da janela
+                height: 600, // altura da janela
+                icon: './src/public/img/clientes.png',
+                resizable: false, // evitar o redimensionamneto
+                // titleBarStyle: 'hidden', // esconder barra de titulo e menu
+                autoHideMenuBar: true, // esconder o menu(apenas)
+                parent: father,
+                modal: true,
+                webPreferences: {
+                    preload: path.join(__dirname, 'preload.js')
+                }
+            })
+        }
     }
 
 
@@ -87,19 +93,22 @@ const fornecedoresWindow = () => {
     // nativeTheme.themeSource = 'dark'
     // se a janela about não estiver aberta
     const father = BrowserWindow.getFocusedWindow()
-    if(father){
-    if (!fornecedores) {
+    if (father) {
+        if (!fornecedores) {
             fornecedores = new BrowserWindow({
-            width:  1280, // largura  da janela
-            height: 720, // altura da janela
-            icon: './src/public/img/fornecedores.png',
-            resizable: false, // evitar o redimensionamneto
-            // titleBarStyle: 'hidden', // esconder barra de titulo e menu
-            autoHideMenuBar: true, // esconder o menu(apenas)
-            parent: father,
-            modal: true
-        })
-    }
+                width: 1280, // largura  da janela
+                height: 720, // altura da janela
+                icon: './src/public/img/fornecedores.png',
+                resizable: false, // evitar o redimensionamneto
+                // titleBarStyle: 'hidden', // esconder barra de titulo e menu
+                autoHideMenuBar: true, // esconder o menu(apenas)
+                parent: father,
+                modal: true,
+                webPreferences: {
+                    preload: path.join(__dirname, 'preload.js')
+                }
+            })
+        }
     }
 
 
@@ -117,20 +126,23 @@ const produtosWindow = () => {
     // nativeTheme.themeSource = 'dark'
     // se a janela about não estiver aberta
     const father = BrowserWindow.getFocusedWindow()
-    if(father){
-    if (!produtos) {
-            
+    if (father) {
+        if (!produtos) {
+
             produtos = new BrowserWindow({
-            width: 800, // largura  da janela
-            height: 600, // altura da janela
-            icon: './src/public/img/produto.png',
-            resizable: false, // evitar o redimensionamneto
-            // titleBarStyle: 'hidden', // esconder barra de titulo e menu
-            autoHideMenuBar: true, // esconder o menu(apenas)
-            parent: father,
-            modal: true
-        })
-    }
+                width: 800, // largura  da janela
+                height: 600, // altura da janela
+                icon: './src/public/img/produto.png',
+                resizable: false, // evitar o redimensionamneto
+                // titleBarStyle: 'hidden', // esconder barra de titulo e menu
+                autoHideMenuBar: true, // esconder o menu(apenas)
+                parent: father,
+                modal: true,
+                webPreferences: {
+                    preload: path.join(__dirname, 'preload.js')
+                }
+            })
+        }
     }
 
 
@@ -148,20 +160,23 @@ const relatoriosWindow = () => {
     // nativeTheme.themeSource = 'dark'
     // se a janela about não estiver aberta
     const father = BrowserWindow.getFocusedWindow()
-    if(father){
-    if (!relatorios) {
-            
+    if (father) {
+        if (!relatorios) {
+
             relatorios = new BrowserWindow({
-            width: 800, // largura  da janela
-            height: 600, // altura da janela
-            icon: './src/public/img/relatorio.png',
-            resizable: false, // evitar o redimensionamneto
-            // titleBarStyle: 'hidden', // esconder barra de titulo e menu
-            autoHideMenuBar: true, // esconder o menu(apenas)
-            parent: father,
-            modal: true
-        })
-    }
+                width: 800, // largura  da janela
+                height: 600, // altura da janela
+                icon: './src/public/img/relatorio.png',
+                resizable: false, // evitar o redimensionamneto
+                // titleBarStyle: 'hidden', // esconder barra de titulo e menu
+                autoHideMenuBar: true, // esconder o menu(apenas)
+                parent: father,
+                modal: true,
+                webPreferences: {
+                    preload: path.join(__dirname, 'preload.js')
+                }
+            })
+        }
     }
 
 
@@ -176,9 +191,9 @@ const relatoriosWindow = () => {
 app.whenReady().then(() => {
 
     //  status de conexão com o banco de dados
-    ipcMain.on('send-message', (event, message) => {
-        console.log(`<<< ${message}`)
-        statusConexao()
+    ipcMain.on('send-message', async (event, message) => {
+        console.log(` ${message}`)
+        event.reply('db-message', 'conectado')
     })
 
     // desconectar do banco ao encerrar a janela
@@ -256,8 +271,8 @@ const template = [
         label: 'relatorios',
         submenu: [{
 
-           label:'relatorios',
-           click: () => relatoriosWindow()
+            label: 'relatorios',
+            click: () => relatoriosWindow()
         }
         ]
     },
@@ -309,3 +324,30 @@ ipcMain.on('open-produtos', () => {
 ipcMain.on('open-relatorios', () => {
     relatoriosWindow()
 })
+// CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('new-client', async (event, cliente) => {
+    console.log(cliente) // teste do passo 2 do slide 
+    // passo 3: cadastrar o cliente no mongoDB
+    try {
+        const novoCliente = new clienteSchema({
+            nomeCliente: cliente.nomeCli,
+            foneCliente: cliente.foneCli,
+            emailCliente: cliente.emailCli,
+        })
+        await novoCliente.save() // save() - mongoose
+    } catch (error) {
+        console.log(error)
+    }   
+})
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+// CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+// CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+// CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+

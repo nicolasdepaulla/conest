@@ -1,6 +1,7 @@
 const { ipcRenderer, contextBridge } = require('electron')
 
 
+
 // status de conexão (verificar se o banco de dados está conectado)
 
 ipcRenderer.send('send-message', "status do banco de dados:")
@@ -15,7 +16,9 @@ contextBridge.exposeInMainWorld('api', {
     openclientes: () => ipcRenderer.send('open-clientes'),
     openfornecedores: () => ipcRenderer.send('open-fornecedores'),
     openprodutos: () => ipcRenderer.send('open-produtos'),
-    openrelatorios: () => ipcRenderer.send('open-relatorios')
+    openrelatorios: () => ipcRenderer.send('open-relatorios'),
+    dbmessage: (message) => ipcRenderer.on('db-message',message),
+    newClient: (cliente) => ipcRenderer.send('new-client', cliente)
 
 })
 
