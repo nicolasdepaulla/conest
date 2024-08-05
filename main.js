@@ -1,14 +1,17 @@
 const { ipcMain } = require('electron')
-const { app, BrowserWindow, Menu, shell } = require('electron/main')
+const { app, BrowserWindow, Menu, shell, dialog } = require('electron/main')
 const path = require('node:path')
-const Cliente = require('./src/models/Cliente')
+const Cliente = require('./src/models/Cliente.js')
+const Fornecedor = require('./src/models/Fornecedor.js')
 
 // importa o módulo de conexão
-const { conectar, desconectar } = require('./database.js')
+const { dbStatus, desconectar } = require('./database.js')
 
 // importação do Schema (model) das coleções("tabelas")
 const clienteSchema = require('./src/models/Cliente.js')
+const fornecedorSchema = require('./src/models/Fornecedor.js')
 
+let dbCon = null
 // janela principal (definir objeto win como variável publica)
 let win
 const createWindow = () => {
@@ -192,13 +195,13 @@ app.whenReady().then(() => {
 
     //  status de conexão com o banco de dados
     ipcMain.on('send-message', async (event, message) => {
-        console.log(` ${message}`)
+        dbCon = await dbStatus()
         event.reply('db-message', 'conectado')
     })
 
     // desconectar do banco ao encerrar a janela
     app.on('before-quit', async () => {
-        await desconectar()
+        await desconectar(dbCon)
     })
 
 
@@ -327,7 +330,7 @@ ipcMain.on('open-relatorios', () => {
 // CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ipcMain.on('new-client', async (event, cliente) => {
     console.log(cliente) // teste do passo 2 do slide 
-    // passo 3: cadastrar o cliente no mongoDB
+    // passo 3: cadastrar o cliente no mongoDB clientes
     try {
         const novoCliente = new clienteSchema({
             nomeCliente: cliente.nomeCli,
@@ -335,12 +338,45 @@ ipcMain.on('new-client', async (event, cliente) => {
             emailCliente: cliente.emailCli,
         })
         await novoCliente.save() // save() - mongoose
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: "Cliente cadastrado com sucesso!",
+            buttons: ['OK']
+        })
     } catch (error) {
         console.log(error)
-    }   
+    }
 })
-// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+// CRUD Fornecedor <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ipcMain.on('new-fornecedor', async (event, fornecedor) => {
+    console.log(fornecedor) // teste do passo 2 do slide 
+    // passo 3: cadastrar o cliente no mongoDB clientes
+    try {
+        const novoFornecedor = new fornecedorSchema({
+        nomeFornecedor: nomeFornecedor.nomeFor,
+        cnpjFornecedor: cnpjFornecedor.cnpjFor,
+        foneFornecedor: foneFornecedor.foneFor,
+        emailFornecedor: emailFornecedor.emailFor,
+        cepFornecedor: cepFornecedor.cepFor,
+        logFornecedor: logradouroFornecedor.logFor,
+        numFornecedor: numeroFornecedor.numFor,
+        compFornecedor: complementoFornecedor.compFor,
+        bairroFornecedor: bairroFornecedor.bairroFor,
+        cidFornecedor: cidadeFornecedor.cidFor,
+        ufFornecedor: ufFornecedor.ufFor
+        })
+        await novoFornecedor.save() // save() - mongoose
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: "Cliente cadastrado com sucesso!",
+            buttons: ['OK']
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 // CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

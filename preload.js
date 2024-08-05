@@ -1,4 +1,5 @@
 const { ipcRenderer, contextBridge } = require('electron')
+const Fornecedor = require('./src/models/Fornecedor')
 
 
 
@@ -18,7 +19,8 @@ contextBridge.exposeInMainWorld('api', {
     openprodutos: () => ipcRenderer.send('open-produtos'),
     openrelatorios: () => ipcRenderer.send('open-relatorios'),
     dbmessage: (message) => ipcRenderer.on('db-message',message),
-    newClient: (cliente) => ipcRenderer.send('new-client', cliente)
+    newClient: (cliente) => ipcRenderer.send('new-client', cliente),
+    newFornecedor: (Fornecedor) => ipcRenderer.send('new-fornecedor', Fornecedor)
 
 })
 
