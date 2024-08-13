@@ -101,7 +101,7 @@ const fornecedoresWindow = () => {
             fornecedores = new BrowserWindow({
                 width: 1280, // largura  da janela
                 height: 720, // altura da janela
-                icon: './src/public/img/fornecedores.png',
+                icon: './src/public/img/fornecedor.png',
                 resizable: false, // evitar o redimensionamneto
                 // titleBarStyle: 'hidden', // esconder barra de titulo e menu
                 autoHideMenuBar: true, // esconder o menu(apenas)
@@ -354,17 +354,17 @@ ipcMain.on('new-fornecedor', async (event, fornecedor) => {
     // passo 3: cadastrar o cliente no mongoDB clientes
     try {
         const novoFornecedor = new fornecedorSchema({
-        nomeFornecedor: nomeFornecedor.nomeFor,
-        cnpjFornecedor: cnpjFornecedor.cnpjFor,
-        foneFornecedor: foneFornecedor.foneFor,
-        emailFornecedor: emailFornecedor.emailFor,
-        cepFornecedor: cepFornecedor.cepFor,
-        logFornecedor: logradouroFornecedor.logFor,
-        numFornecedor: numeroFornecedor.numFor,
-        compFornecedor: complementoFornecedor.compFor,
-        bairroFornecedor: bairroFornecedor.bairroFor,
-        cidFornecedor: cidadeFornecedor.cidFor,
-        ufFornecedor: ufFornecedor.ufFor
+            nomeFornecedor: fornecedor.nomeFor,
+            cnpjFornecedor: fornecedor.cnpjFor,
+            foneFornecedor: fornecedor.foneFor,
+            emailFornecedor: fornecedor.emailFor,
+            cepFornecedor: fornecedor.cepFor,
+            logFornecedor: fornecedor.logFor,
+            numFornecedor: fornecedor.numFor,
+            compFornecedor: fornecedor.compFor,
+            bairroFornecedor: fornecedor.bairroFor,
+            cidFornecedor: fornecedor.cidFor,
+            ufFornecedor: fornecedor.ufFor
         })
         await novoFornecedor.save() // save() - mongoose
         dialog.showMessageBox({
@@ -378,7 +378,109 @@ ipcMain.on('new-fornecedor', async (event, fornecedor) => {
     }
 })
 // CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// aviso (Busca: Preenchimento de campo obrigatório)
+ipcMain.on('dialog-infoSearchDialog', (event) => {
+    dialog.showMessageBox({
+        type: 'warning',
+        title: 'Atenção',
+        message: 'Pesquise o cliente no campo de busca',
+        buttons: ['OK']
+    })
+    event.reply('focus-search')
+})
+// recebimento do pedido de busca de um cliente pelo nome (Passo 1 - Slide)
+ipcMain.on('search-client', async (event, nomeCliente) => {
+    console.log(nomeCliente)
+    // busca no banco de dados
+    try {
+        // find() "metodo de busca" newRegex 'i' case insensitive
+        const dadosCliente = await clienteSchema.find({
+            nomeCliente: new
+                RegExp(nomeCliente, 'i') // passo 2
+        })
+        console.log(dadosCliente) // passo 3 (recebimento dos dados do cliente)
+        // UX -> se o cliente não estiver cadastrado, avisar o usuário
+        // e habilitar o cadastramento 
+        if (dadosCliente.length === 0) {
+            dialog.showMessageBox({
+                type: 'warning',
+                title: 'Atenção!',
+                message: 'Cliente não cadastrado.\nDeseja cadastrar esse cliente?',
+                buttons: ['Sim', 'Não'],
+                defaultId: 0
+            }).then((result) => {
+                if (result.response === 0) {
+                    // setar o nome do cliente no form e habilitar o cadastramento
+                    event.reply('name-client') 
+                } else {
+                    // limpar a caixa de busca
+                event.reply('clear-search')
+                }
+            })
 
+        } else {
+            // passo 4 (enviar os dados do cliente ao renderizador)
+            event.reply('data-client', JSON.stringify(dadosCliente))
+        } 
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
+
+
+
+
+// CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// aviso (Busca: Preenchimento de campo obrigatório)
+ipcMain.on('dialog-infoSearchDialogForn', (event) => {
+    dialog.showMessageBox({
+        type: 'warning',
+        title: 'Atenção',
+        message: 'Pesquise o fornecedor no campo de busca',
+        buttons: ['OK']
+    })
+    event.reply('focus-searchForn')
+})
+// recebimento do pedido de busca de um fornecedor pelo nome (Passo 1 - Slide)
+ipcMain.on('search-fornecedor', async (event, nomeFornecedor) => {
+    console.log(nomeFornecedor)
+    // busca no banco de dados
+    try {
+        // find() "metodo de busca" newRegex 'i' case insensitive
+        const dadosFornecedor = await fornecedorSchema.find({
+            nomeFornecedor: new
+                RegExp(nomeFornecedor, 'i') // passo 2
+        })
+        console.log(dadosFornecedor) // passo 3 (recebimento dos dados do cliente)
+        // UX -> se o cliente não estiver cadastrado, avisar o usuário
+        // e habilitar o cadastramento 
+        if (dadosFornecedor.length === 0) {
+            dialog.showMessageBox({
+                type: 'warning',
+                title: 'Atenção!',
+                message: 'Fornecedor não cadastrado.\nDeseja cadastra-lo?',
+                buttons: ['Sim', 'Não'],
+                defaultId: 0
+            }).then((result) => {
+                if (result.response === 0) {
+                    // setar o nome do cliente no form e habilitar o cadastramento
+                    event.reply('name-fornecedor') 
+                } else {
+                    // limpar a caixa de busca
+                event.reply('clear-search')
+                }
+            })
+
+        } else {
+            // passo 4 (enviar os dados do cliente ao renderizador)
+            event.reply('data-fornecedor', JSON.stringify(dadosFornecedor))
+        } 
+    } catch (error) {
+        console.log(error)
+    }
+})
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

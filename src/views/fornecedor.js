@@ -2,20 +2,45 @@
  * Processo de renderização
  * Fornecedores
  */
+// mudar propriedades do documento ao iniciar (UX)
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('inputSearch').focus() // foco no campo de busca
+    btnCreate.disabled = true // desativa o botão
+    btnUpdate.disabled = true
+    btnDelete.disabled = true
+})
+
+// função para manipular o evento enter
+function teclaEnter(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault()
+        // executar a função associada ao botão buscar
+        buscarFornecedor()
+    }
+}
+
+// adicionar a função de manipulação do evento da tecla Enter
+document.getElementById('frmFornecedor').addEventListener('keydown',teclaEnter)
+
+// função para remover o manipulador de eventos da tecla Enter
+function removerTeclaEnter() {
+    document.getElementById('frmFornecedor').removeEventListener('keydown',teclaEnter)
+}
+
 // CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // captura dos inputs do formulário (passo 1 - slides)
 let formFornecedor = document.getElementById('frmFornecedor')
-let nomeFornecedor = document.getElementById('inputnameFornecedor')
-let cnpjFornecedor = document.getElementById('inputCnpjFornecedor')
-let foneFornecedor = document.getElementById('inputPhoneFornecedor')
-let emailFornecedor = document.getElementById('inputAddressFornecedor')
-let cepFornecedor = document.getElementById('inputCepFornecedor')
-let logradouroFornecedor = document.getElementById('inputLogradouroFornecedor')
-let numeroFornecedor = document.getElementById('inputNumeroFornecedor')
-let complementoFornecedor = document.getElementById('inputComplementoFornecedor')
-let bairroFornecedor = document.getElementById('inputBairroFornecedor')
-let cidadeFornecedor = document.getElementById('inputCidadeFornecedor')
-let ufFornecedor = document.getElementById('ufFornecedor')
+let nomeFornecedor = document.getElementById('inputname')
+let cnpjFornecedor = document.getElementById('inputCnpj')
+let foneFornecedor = document.getElementById('inputPhone')
+let emailFornecedor = document.getElementById('inputAddress')
+let cepFornecedor = document.getElementById('inputCep')
+let logradouroFornecedor = document.getElementById('inputLogradouro')
+let numeroFornecedor = document.getElementById('inputNumero')
+let complementoFornecedor = document.getElementById('inputComplemento')
+let bairroFornecedor = document.getElementById('inputBairro')
+let cidadeFornecedor = document.getElementById('inputCidade')
+let ufFornecedor = document.getElementById('uf')
 // evento relacionado ao botão adicionar (ainda passo 1 - slide)
 formFornecedor.addEventListener('submit', async (event) => {
     event.preventDefault()
@@ -43,7 +68,68 @@ formFornecedor.addEventListener('submit', async (event) => {
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// array (vetor) usado na renderização dos dados do cliente
+let arrayFornecedor = []
 
+// Função que vai enviar ao main um pedido de busca dos dados de um 
+// cliente pelo nome (Passo 1 - slide)
+function buscarFornecedor() {
+    let nomeFornecedor = document.getElementById('inputSearch').value.trimStart().trimEnd()
+    // validação (UX)
+    if (nomeFornecedor === "") {
+        // validar campo obrigatório
+        api.infoSearchDialog()
+    } else {
+        // enviar o pedido de busca junto com o nome do cliente
+        api.searchClient(nomeFornecedor)
+    }
+    // foco no campo de busca (UX)
+    api.focusSearch((args) => {
+        document.getElementById('inputSearch').focus()
+    })
+    // setar o nome do cliente e habilitar o cadastramento
+    api.nameClient((args) => {
+        // restaurar o comportamento padrão da tecla Enter
+        removerTeclaEnter()
+        let setarNomeFornecedor = document.getElementById('inputSearch').value.trim()
+        document.getElementById('inputname').value = setarNomeFornecedor
+        document.getElementById('inputSearch').value = ""
+        document.getElementById('inputSearch').blur()
+        document.getElementById('inputSearch').disabled = true
+        document.getElementById('inputname').focus()
+        btnRead.disabled = true
+        btnCreate.disabled = false
+    })
+    // limpar a caixa de busca e setar o foco
+    api.clearSearch((args) => {
+        document.getElementById('inputname').value = ""
+        document.getElementById('inputname').focus()
+    })
+    // receber do main js os dados do cliente (Passo 4)
+    api.dataClient((event, dadosFornecedor) => {
+        arrayFornecedor = JSON.parse(dadosFornecedor)
+        console.log(arrayFornecedor)
+    
+    // Passo 5 (Final) percorrer o array, extrair os dados e setar os campos de texto (caixa input) do formulário
+    arrayFornecedor.forEach((c) => {
+        document.getElementById('inputId').value = c._id,
+        document.getElementById('inputname').value = c.nomeFornecedor,
+        document.getElementById('inputphone').value = c.foneFornecedor,
+        document.getElementById('inputAddress').value = c.emailFornecedor
+        // limpar a caixa de busca (UX)
+        document.getElementById('inputSearch').value = ""
+        // remover o foco de desativar
+        document.getElementById('inputSearch').disabled = true
+        document.getElementById("inputSearch").blur()
+        //desativar os botão adicionar e buscar
+        document.getElementById("btnCreate").disabled = true
+        document.getElementById("btnRead").disabled = true 
+        // ativar os botões update e delete
+        document.getElementById('btnUpdate').disabled = false
+        document.getElementById('btnDelete').disabled = false
+    })
+})
+}
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

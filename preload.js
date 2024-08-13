@@ -1,5 +1,5 @@
 const { ipcRenderer, contextBridge } = require('electron')
-const Fornecedor = require('./src/models/Fornecedor')
+
 
 
 
@@ -20,8 +20,18 @@ contextBridge.exposeInMainWorld('api', {
     openrelatorios: () => ipcRenderer.send('open-relatorios'),
     dbmessage: (message) => ipcRenderer.on('db-message',message),
     newClient: (cliente) => ipcRenderer.send('new-client', cliente),
-    newFornecedor: (Fornecedor) => ipcRenderer.send('new-fornecedor', Fornecedor)
-
+    newFornecedor: (fornecedor) => ipcRenderer.send('new-fornecedor', fornecedor),
+    infoSearchDialog: () => ipcRenderer.send('dialog-infoSearchDialog'), // permitir um pedido ao main
+    focusSearch: (args) => ipcRenderer.on('focus-search', args),
+    searchClient: (nomeCliente) => ipcRenderer.send('search-client', nomeCliente),
+    nameClient: (args) => ipcRenderer.on('name-client', args),
+    clearSearch: (args) => ipcRenderer.on('clear-search', args),
+    dataClient: (dadosCliente) => ipcRenderer.on('data-client',dadosCliente),
+    searchFornecedor: (nomeFornecedor) => ipcRenderer.send('search-fornecedor', nomeFornecedor),
+    nameFornecedor: (args) => ipcRenderer.on('name-fornecedor', args),
+    dataFornecedor: (dadosFornecedor) => ipcRenderer.on('data-fornecedor',dadosFornecedor),
+    infoSearchDialogForn: () => ipcRenderer.send('dialog-infoSearchDialogForn'), // permitir um pedido ao main
+    focusSearchForn: (args) => ipcRenderer.on('focus-searchForn', args)
 })
 
 // Inserir data na página

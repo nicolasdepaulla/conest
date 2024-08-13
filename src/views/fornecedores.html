@@ -20,7 +20,7 @@
             </div>
             <!-- Botão de pesquisa de fornecedor CRUD read -->
             <div class="col-md-6">
-                <button type="button" class="btn btn-outline-success" id="btnRead">Buscar</button>
+                <button type="button" class="btn btn-outline-success" id="btnRead" onclick="buscarFornecedor()">Buscar</button>
             </div>
             <hr class="border border-primary border-1 opacity-75">
             <!-- id MongoDB -->
@@ -30,30 +30,30 @@
             </div>
             <!-- Nome do fornecedor -->
             <div class="col-md-8">
-                <label for="inputnameFornecedor" class="form-label">Razão Social</label>
-                <input type="text" class="form-control" id="inputnameFornecedor" maxlength="50" spellcheck="false" required>
+                <label for="inputname" class="form-label">Razão Social</label>
+                <input type="text" class="form-control" id="inputname" maxlength="50" spellcheck="false" required>
             </div>
             <!-- CNPJ do fornecedor -->
             <div class="col-md-4">
-                <label for="inputCnpjFornecedor" class="form-label">CNPJ</label>
-                <input type="number" class="form-control" id="inputCnpjFornecedor" spellcheck="false" required>
+                <label for="inputCnpj" class="form-label">CNPJ</label>
+                <input type="number" class="form-control" id="inputCnpj" spellcheck="false" required>
             </div>
             <!-- Telefone do fornecedor -->
             <div class="col-md-4">
-                <label for="inputPhoneFornecedor" class="form-label">Telefone</label>
-                <input type="number" class="form-control" id="inputPhoneFornecedor" spellcheck="false" required>
+                <label for="inputPhone" class="form-label">Telefone</label>
+                <input type="number" class="form-control" id="inputPhone" spellcheck="false" required>
             </div>
             <!-- Email do fornecedor -->
             <div class="col-md-5">
-                <label for="inputAddressFornecedor" class="form-label">E-mail</label>
-                <input type="email" class="form-control" id="inputAddressFornecedor" maxlength="50" spellcheck="false" required>
+                <label for="inputAddress" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="inputAddress" maxlength="50" spellcheck="false" required>
                 <br>
             </div>
             <hr class="border border-primary border-1 opacity-75">
             <!-- CEP -->
             <div class="col-md-3">
-                <label for="inputCepFornecedor" class="form-label">CEP</label>
-                <input type="text" class="form-control" id="inputCepFornecedor" maxlength="8" spellcheck="false" required>
+                <label for="inputCep" class="form-label">CEP</label>
+                <input type="text" class="form-control" id="inputCep" maxlength="8" spellcheck="false" required>
             </div>
             <!-- Botão de pesquisa de CEP -->
             <div class="col-md-1">
@@ -61,33 +61,33 @@
             </div>
             <!-- Logradouro -->
             <div class="col-md-4">
-                <label for="inputLogradouroFornecedor" class="form-label">Endereço</label>
-                <input type="text" class="form-control" id="inputLogradouroFornecedor" maxlength="50" spellcheck="false" required>
+                <label for="inputLogradouro" class="form-label">Endereço</label>
+                <input type="text" class="form-control" id="inputLogradouro" maxlength="50" spellcheck="false" required>
             </div>
             <!-- Número -->
             <div class="col-md-1">
-                <label for="inputNumeroFornecedor" class="form-label">Número</label>
-                <input type="number" class="form-control" id="inputNumeroFornecedor" spellcheck="false" required>
+                <label for="inputNumero" class="form-label">Número</label>
+                <input type="number" class="form-control" id="inputNumero" spellcheck="false" required>
             </div>
             <!-- Complemento -->
             <div class="col-md-2">
-                <label for="inputComplementoFornecedor" class="form-label">Complemento</label>
-                <input type="text" class="form-control" id="inputComplementoFornecedor" spellcheck="false">
+                <label for="inputComplemento" class="form-label">Complemento</label>
+                <input type="text" class="form-control" id="inputComplemento" spellcheck="false">
             </div>
             <!-- Bairro -->
             <div class="col-md-3">
-                <label for="inputBairroFornecedor" class="form-label">Bairro</label>
-                <input type="text" class="form-control" id="inputBairroFornecedor" spellcheck="false" required>
+                <label for="inputBairro" class="form-label">Bairro</label>
+                <input type="text" class="form-control" id="inputBairro" spellcheck="false" required>
             </div>
             <!-- Cidade -->
             <div class="col-md-3">
-                <label for="inputCidadeFornecedor" class="form-label">Cidade</label>
-                <input type="text" class="form-control" id="inputCidadeFornecedor" spellcheck="false" required>
+                <label for="inputCidade" class="form-label">Cidade</label>
+                <input type="text" class="form-control" id="inputCidade" spellcheck="false" required>
             </div>
             <!-- UF -->
             <div class="col-md-1">
-            <label for="ufFornecedor">UF</label>
-            <select id="ufFornecedor" class="form-select" required>
+            <label for="uf">UF</label>
+            <select id="uf" class="form-select" required>
                 <option selected></option>
                 <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option><option value="AM">AM</option>
                 <option value="BA">BA</option><option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option>
