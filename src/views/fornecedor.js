@@ -30,6 +30,7 @@ function removerTeclaEnter() {
 // CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // captura dos inputs do formulário (passo 1 - slides)
 let formFornecedor = document.getElementById('frmFornecedor')
+let idFornecedor = document.getElementById('inputId')
 let nomeFornecedor = document.getElementById('inputname')
 let cnpjFornecedor = document.getElementById('inputCnpj')
 let foneFornecedor = document.getElementById('inputPhone')
@@ -68,11 +69,11 @@ formFornecedor.addEventListener('submit', async (event) => {
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-// array (vetor) usado na renderização dos dados do cliente
+// array (vetor) usado na renderização dos dados do fornecedor
 let arrayFornecedor = []
 
 // Função que vai enviar ao main um pedido de busca dos dados de um 
-// cliente pelo nome (Passo 1 - slide)
+// fornecedor pelo nome (Passo 1 - slide)
 function buscarFornecedor() {
     let nomeFornecedor = document.getElementById('inputSearch').value.trimStart().trimEnd()
     // validação (UX)
@@ -80,22 +81,22 @@ function buscarFornecedor() {
         // validar campo obrigatório
         api.infoSearchDialog()
     } else {
-        // enviar o pedido de busca junto com o nome do cliente
-        api.searchClient(nomeFornecedor)
+        // enviar o pedido de busca junto com o nome do fornecedor
+        api.searchFornecedor(nomeFornecedor)
     }
     // foco no campo de busca (UX)
     api.focusSearch((args) => {
         document.getElementById('inputSearch').focus()
     })
-    // setar o nome do cliente e habilitar o cadastramento
-    api.nameClient((args) => {
+    // setar o nome do fornecedor e habilitar o cadastramento
+    api.nameFornecedor((args) => {
         // restaurar o comportamento padrão da tecla Enter
         removerTeclaEnter()
         let setarNomeFornecedor = document.getElementById('inputSearch').value.trim()
         document.getElementById('inputname').value = setarNomeFornecedor
         document.getElementById('inputSearch').value = ""
-        document.getElementById('inputSearch').blur()
         document.getElementById('inputSearch').disabled = true
+        document.getElementById('inputSearch').blur()
         document.getElementById('inputname').focus()
         btnRead.disabled = true
         btnCreate.disabled = false
@@ -105,8 +106,8 @@ function buscarFornecedor() {
         document.getElementById('inputname').value = ""
         document.getElementById('inputname').focus()
     })
-    // receber do main js os dados do cliente (Passo 4)
-    api.dataClient((event, dadosFornecedor) => {
+    // receber do main js os dados do fornecedor (Passo 4)
+    api.dataFornecedor((event, dadosFornecedor) => {
         arrayFornecedor = JSON.parse(dadosFornecedor)
         console.log(arrayFornecedor)
     
@@ -114,8 +115,16 @@ function buscarFornecedor() {
     arrayFornecedor.forEach((c) => {
         document.getElementById('inputId').value = c._id,
         document.getElementById('inputname').value = c.nomeFornecedor,
-        document.getElementById('inputphone').value = c.foneFornecedor,
-        document.getElementById('inputAddress').value = c.emailFornecedor
+        document.getElementById('inputCnpj').value = c.cnpjFornecedor,
+        document.getElementById('inputPhone').value = c.foneFornecedor,
+        document.getElementById('inputAddress').value = c.emailFornecedor,
+        document.getElementById('inputCep').value = c.cepFornecedor,
+        document.getElementById('inputLogradouro').value = c.logradouroFornecedor,
+        document.getElementById('inputNumero').value = c.numeroFornecedor,
+        document.getElementById('inputComplemento').value = c.complementoFornecedor,
+        document.getElementById('inputBairro').value = c.bairroFornecedor,
+        document.getElementById('inputCidade').value = c.cidadeFornecedor,
+        document.getElementById('uf').value = c.ufFornecedor
         // limpar a caixa de busca (UX)
         document.getElementById('inputSearch').value = ""
         // remover o foco de desativar
@@ -133,7 +142,25 @@ function buscarFornecedor() {
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+function editarFornecedor() {
+    const fornecedor = {
+        idForn: idFornecedor.value,
+        nomeFor: nomeFornecedor.value,
+        cnpjFor: cnpjFornecedor.value,
+        foneFor: foneFornecedor.value,
+        emailFor: emailFornecedor.value,
+        cepFor: cepFornecedor.value,
+        logFor: logradouroFornecedor.value,
+        numFor: numeroFornecedor.value,
+        compFor: complementoFornecedor.value,
+        bairroFor: bairroFornecedor.value,
+        cidFor: cidadeFornecedor.value,
+        ufFor: ufFornecedor.value
+    }
+    console.log(fornecedor) // teste do passo 1
+    // passo 2: Enviar o objeto fornecedor ao main.js
+    api.updateFornecedor(fornecedor)
+}
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

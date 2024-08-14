@@ -348,35 +348,7 @@ ipcMain.on('new-client', async (event, cliente) => {
         console.log(error)
     }
 })
-// CRUD Fornecedor <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-ipcMain.on('new-fornecedor', async (event, fornecedor) => {
-    console.log(fornecedor) // teste do passo 2 do slide 
-    // passo 3: cadastrar o cliente no mongoDB clientes
-    try {
-        const novoFornecedor = new fornecedorSchema({
-            nomeFornecedor: fornecedor.nomeFor,
-            cnpjFornecedor: fornecedor.cnpjFor,
-            foneFornecedor: fornecedor.foneFor,
-            emailFornecedor: fornecedor.emailFor,
-            cepFornecedor: fornecedor.cepFor,
-            logFornecedor: fornecedor.logFor,
-            numFornecedor: fornecedor.numFor,
-            compFornecedor: fornecedor.compFor,
-            bairroFornecedor: fornecedor.bairroFor,
-            cidFornecedor: fornecedor.cidFor,
-            ufFornecedor: fornecedor.ufFor
-        })
-        await novoFornecedor.save() // save() - mongoose
-        dialog.showMessageBox({
-            type: 'info',
-            title: 'Aviso',
-            message: "Cliente cadastrado com sucesso!",
-            buttons: ['OK']
-        })
-    } catch (error) {
-        console.log(error)
-    }
-})
+
 // CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // aviso (Busca: Preenchimento de campo obrigatório)
 ipcMain.on('dialog-infoSearchDialog', (event) => {
@@ -411,23 +383,105 @@ ipcMain.on('search-client', async (event, nomeCliente) => {
             }).then((result) => {
                 if (result.response === 0) {
                     // setar o nome do cliente no form e habilitar o cadastramento
-                    event.reply('name-client') 
+                    event.reply('name-client')
                 } else {
                     // limpar a caixa de busca
-                event.reply('clear-search')
+                    event.reply('clear-search')
                 }
             })
 
         } else {
             // passo 4 (enviar os dados do cliente ao renderizador)
             event.reply('data-client', JSON.stringify(dadosCliente))
-        } 
+        }
     } catch (error) {
         console.log(error)
     }
 })
 
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+// CRUD Update do cliente >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('update-client', async (event, cliente) => {
+    console.log(cliente) // teste do passo 2 do slide 
+    // passo 3: cadastrar o cliente no mongoDB clientes
+    try {
+        const clienteEditado = await clienteSchema.findByIdAndUpdate(
+            cliente.idcli, {
+            nomeCliente: cliente.nomeCli,
+            foneCliente: cliente.foneCli,
+            emailCliente: cliente.emailCli,
+        },
+            {
+                new: true
+            }
+        )
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: "Dados do Cliente alterados com sucesso!",
+            buttons: ['OK']
+        })
+        // event.reply('reset-form')
+    } catch (error) {
+        console.log(error)
+    }
+})
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+// CRUD Delete do cliente >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+ipcMain.on('delete-client', async (event, idCli) => {
+    console.log(idCli) // teste do passo 2 
+    // IMPORTANTE! confirmar a ação antes de excluir do banco
+    dialog.showMessageBox({
+        type: 'error',
+        title: 'ATENÇÃO!',
+        message: 'tem certeza que deseja excluir esse clinte?',
+        buttons: ['Sim', 'Não'],
+        defaultId: 0
+    }).then(async (result) => {
+        if (result.response === 0) {
+           // passo 3 (excluir o cliente do banco)
+           try {
+            await clienteSchema.findByIdAndDelete(idCli)
+           } catch (error) {
+            console.log(error)
+           }
+        } 
+    })
+})
+
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+// CRUD Fornecedor <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ipcMain.on('new-fornecedor', async (event, fornecedor) => {
+    console.log(fornecedor) // teste do passo 2 do slide 
+    // passo 3: cadastrar o cliente no mongoDB clientes
+    try {
+        const novoFornecedor = new fornecedorSchema({
+            nomeFornecedor: fornecedor.nomeFor,
+            cnpjFornecedor: fornecedor.cnpjFor,
+            foneFornecedor: fornecedor.foneFor,
+            emailFornecedor: fornecedor.emailFor,
+            cepFornecedor: fornecedor.cepFor,
+            logradouroFornecedor: fornecedor.logFor,
+            numeroFornecedor: fornecedor.numFor,
+            complementoFornecedor: fornecedor.compFor,
+            bairroFornecedor: fornecedor.bairroFor,
+            cidadeFornecedor: fornecedor.cidFor,
+            ufFornecedor: fornecedor.ufFor
+        })
+        await novoFornecedor.save() // save() - mongoose
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: "fornecedor cadastrado com sucesso!",
+            buttons: ['OK']
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 
 
@@ -466,26 +520,59 @@ ipcMain.on('search-fornecedor', async (event, nomeFornecedor) => {
             }).then((result) => {
                 if (result.response === 0) {
                     // setar o nome do cliente no form e habilitar o cadastramento
-                    event.reply('name-fornecedor') 
+                    event.reply('name-fornecedor')
                 } else {
                     // limpar a caixa de busca
-                event.reply('clear-search')
+                    event.reply('clear-search')
                 }
             })
 
         } else {
             // passo 4 (enviar os dados do cliente ao renderizador)
             event.reply('data-fornecedor', JSON.stringify(dadosFornecedor))
-        } 
+        }
+    } catch (error) {
+        console.log(error)
+    }
+})
+// CRUD Update do fornecedor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('update-fornecedor', async (event, fornecedor) => {
+    console.log(fornecedor) // teste do passo 2 do slide 
+    // passo 3: cadastrar o cliente no mongoDB clientes
+    try {
+        const fornecedorEditado = await fornecedorSchema.findByIdAndUpdate(
+                fornecedor.idForn,{
+            nomeFornecedor: fornecedor.nomeFor,
+            cnpjFornecedor: fornecedor.cnpjFor,
+            foneFornecedor: fornecedor.foneFor,
+            emailFornecedor: fornecedor.emailFor,
+            cepFornecedor: fornecedor.cepFor,
+            logradouroFornecedor: fornecedor.logFor,
+            numeroFornecedor: fornecedor.numFor,
+            complementoFornecedor: fornecedor.compFor,
+            bairroFornecedor: fornecedor.bairroFor,
+            cidadeFornecedor: fornecedor.cidFor,
+            ufFornecedor: fornecedor.ufFor
+        },
+            {
+                new: true
+            }
+        )
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: "Dados do fornecedor alterados com sucesso!",
+            buttons: ['OK']
+        })
+        // event.reply('reset-form')
     } catch (error) {
         console.log(error)
     }
 })
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-// CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// CRUD Delete do fornecedor>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-// CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 

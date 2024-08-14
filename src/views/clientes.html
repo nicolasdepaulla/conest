@@ -14,13 +14,14 @@
 <body>
     <br>
     <div class="container">
+        <h1 class="mt-3">Clientes</h1>
         <form class="row g-3" id="frmCliente">
             <div class="col-md-6">
                 <input type="text" class="form-control" id="inputSearch" maxlength="30" spellcheck="false">
             </div>
             <!-- Botão de pesquisa de cliente CRUD Read -->
             <div class="col-md-4">
-                <button type="button" class="btn btn-primary" id="btnRead" onclick="buscarCliente()">Buscar</button>
+                <button type="button" class="btn btn-outline-primary" id="btnRead" onclick="buscarCliente()">Buscar</button>
             </div>
 
             <hr class="border border-primary border-1 opacity-75">
@@ -51,9 +52,9 @@
             <!-- Botões -->
             <div class="col-12">
                 <br>
-                <button type="submit" class="btn btn-success" id="btnCreate">Adicionado</button>
-                <button type="button" class="btn btn-warning" id="btnUpdate">Editar</button>
-                <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
+                <button type="submit" class="btn btn-outline-success" id="btnCreate">Adicionado</button>
+                <button type="button" class="btn btn-outline-warning" id="btnUpdate" onclick="editarCliente()">Editar</button>
+                <button type="button" class="btn btn-outline-danger" id="btnDelete" onclick="excluirCliente()">Excluir</button>
                 <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
             </div>
         </form>

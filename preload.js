@@ -27,11 +27,15 @@ contextBridge.exposeInMainWorld('api', {
     nameClient: (args) => ipcRenderer.on('name-client', args),
     clearSearch: (args) => ipcRenderer.on('clear-search', args),
     dataClient: (dadosCliente) => ipcRenderer.on('data-client',dadosCliente),
+    updateClient: (cliente) => ipcRenderer.send('update-client', cliente),
+    deleteClient: (idCli) => ipcRenderer.send('delete-client', idCli),
     searchFornecedor: (nomeFornecedor) => ipcRenderer.send('search-fornecedor', nomeFornecedor),
     nameFornecedor: (args) => ipcRenderer.on('name-fornecedor', args),
     dataFornecedor: (dadosFornecedor) => ipcRenderer.on('data-fornecedor',dadosFornecedor),
     infoSearchDialogForn: () => ipcRenderer.send('dialog-infoSearchDialogForn'), // permitir um pedido ao main
-    focusSearchForn: (args) => ipcRenderer.on('focus-searchForn', args)
+    focusSearchForn: (args) => ipcRenderer.on('focus-searchForn', args),
+    updateFornecedor: (fornecedor) => ipcRenderer.send('update-fornecedor', fornecedor),
+    
 })
 
 // Inserir data na página
