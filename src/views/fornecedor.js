@@ -130,7 +130,7 @@ function buscarFornecedor() {
         // remover o foco de desativar
         document.getElementById('inputSearch').disabled = true
         document.getElementById("inputSearch").blur()
-        //desativar os botão adicionar e buscar
+        //desativar os botões adicionar e buscar
         document.getElementById("btnCreate").disabled = true
         document.getElementById("btnRead").disabled = true 
         // ativar os botões update e delete
@@ -164,5 +164,20 @@ function editarFornecedor() {
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+function excluirFornecedor() {
+    let idForn = idFornecedor.value
+    console.log(idForn)
+    api.deleteFornecedor(idForn)
+} 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+function resetForm() {
+    document.getElementById('inputSearch').disabled = false
+    document.getElementById('inputSearch').focus() // foco no campo de busca
+    btnCreate.disabled = true // desativa o botão
+    btnRead.disabled = false
+    btnUpdate.disabled = true
+    btnDelete.disabled = true
+    //document.getElementById("frmCliente").addEventListener("keydown", teclaEnter)
+}

@@ -573,6 +573,25 @@ ipcMain.on('update-fornecedor', async (event, fornecedor) => {
 
 // CRUD Delete do fornecedor>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+ipcMain.on('delete-fornecedor', async (event, idForn) => {
+    console.log(idForn) // teste do passo 2 
+    // IMPORTANTE! confirmar a ação antes de excluir do banco
+    dialog.showMessageBox({
+        type: 'error',
+        title: 'ATENÇÃO!',
+        message: 'tem certeza que deseja excluir esse fornecedor?',
+        buttons: ['Sim', 'Não'],
+        defaultId: 0
+    }).then(async (result) => {
+        if (result.response === 0) {
+           // passo 3 (excluir o cliente do banco)
+           try {
+            await fornecedorSchema.findByIdAndDelete(idForn)
+           } catch (error) {
+            console.log(error)
+           }
+        } 
+    })
+})
 
-
-
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
