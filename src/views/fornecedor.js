@@ -93,7 +93,7 @@ function buscarFornecedor() {
         // restaurar o comportamento padrão da tecla Enter
         removerTeclaEnter()
         let setarNomeFornecedor = document.getElementById('inputSearch').value.trim()
-        document.getElementById('inputname').value = setarNomeFornecedor
+        document.getElementById('inputname').value += setarNomeFornecedor
         document.getElementById('inputSearch').value = ""
         document.getElementById('inputSearch').disabled = true
         document.getElementById('inputSearch').blur()
@@ -139,6 +139,19 @@ function buscarFornecedor() {
     })
 })
 }
+
+function validarphone() {
+    let inputphone = document.getElementById('inputPhone');
+    let errorMessage = document.getElementById('errorMessage');
+    
+    if (inputphone.value === "") {
+        errorMessage.textContent = "O campo Telefone é obrigatório!";
+        inputphone.focus(); // Coloca o foco no campo Telefone
+    } else {
+        errorMessage.textContent = "";
+        alert("Telefone válido!"); // Ou você pode processar o formulário aqui
+    }
+}
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -160,7 +173,11 @@ function editarFornecedor() {
     console.log(fornecedor) // teste do passo 1
     // passo 2: Enviar o objeto fornecedor ao main.js
     api.updateFornecedor(fornecedor)
+    
 }
+api.resetForm((args) => {
+    resetForm()   
+})
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -170,7 +187,10 @@ function excluirFornecedor() {
     api.deleteFornecedor(idForn)
 } 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+// Reset do formulário apos o envio
+api.resetForm((args) => {
+    resetForm()   
+})
 
 function resetForm() {
     document.getElementById('inputSearch').disabled = false
@@ -179,5 +199,16 @@ function resetForm() {
     btnRead.disabled = false
     btnUpdate.disabled = true
     btnDelete.disabled = true
-    //document.getElementById("frmCliente").addEventListener("keydown", teclaEnter)
+    document.getElementById('inputname').value = ""
+    document.getElementById('inputCnpj').value = ""
+    document.getElementById('inputPhone').value = ""
+    document.getElementById('inputAddress').value = ""
+    document.getElementById('inputCep').value = ""
+    document.getElementById('inputLogradouro').value = ""
+    document.getElementById('inputNumero').value = ""
+    document.getElementById('inputComplemento').value = ""
+    document.getElementById('inputBairro').value = ""
+    document.getElementById('inputCidade').value = ""
+    document.getElementById('uf').value = ""
+    document.getElementById('inputId').value = ""
 }

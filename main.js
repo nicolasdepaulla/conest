@@ -99,8 +99,10 @@ const fornecedoresWindow = () => {
     if (father) {
         if (!fornecedores) {
             fornecedores = new BrowserWindow({
-                width: 1280, // largura  da janela
-                height: 720, // altura da janela
+                width: 1440, // largura  da janela
+                height: 900,
+                x:3,
+                y:3, // altura da janela
                 icon: './src/public/img/fornecedor.png',
                 resizable: false, // evitar o redimensionamneto
                 // titleBarStyle: 'hidden', // esconder barra de titulo e menu
@@ -421,7 +423,7 @@ ipcMain.on('update-client', async (event, cliente) => {
             message: "Dados do Cliente alterados com sucesso!",
             buttons: ['OK']
         })
-        // event.reply('reset-form')
+         event.reply('reset-form')
     } catch (error) {
         console.log(error)
     }
@@ -564,7 +566,7 @@ ipcMain.on('update-fornecedor', async (event, fornecedor) => {
             message: "Dados do fornecedor alterados com sucesso!",
             buttons: ['OK']
         })
-        // event.reply('reset-form')
+         event.reply('reset-form')
     } catch (error) {
         console.log(error)
     }
@@ -573,25 +575,32 @@ ipcMain.on('update-fornecedor', async (event, fornecedor) => {
 
 // CRUD Delete do fornecedor>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-ipcMain.on('delete-fornecedor', async (event, idForn) => {
-    console.log(idForn) // teste do passo 2 
-    // IMPORTANTE! confirmar a ação antes de excluir do banco
+// CRUD Delete Fornecedor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('delete-fornecedor', (event, idForn) => {
+    console.log(idForn)
+    // Confirmação da ação antes de excluir
     dialog.showMessageBox({
         type: 'error',
-        title: 'ATENÇÃO!',
-        message: 'tem certeza que deseja excluir esse fornecedor?',
+        title: "Atenção!",
+        message: "Deseja excluir este fornecedor? Essa é uma ação irreversível",
         buttons: ['Sim', 'Não'],
         defaultId: 0
     }).then(async (result) => {
         if (result.response === 0) {
-           // passo 3 (excluir o cliente do banco)
-           try {
-            await fornecedorSchema.findByIdAndDelete(idForn)
-           } catch (error) {
-            console.log(error)
-           }
-        } 
+            try {
+                await fornecedorSchema.findByIdAndDelete(idForn)
+                dialog.showMessageBox({
+                    type: 'info',
+                    title: "Aviso",
+                    message: "Fornecedor excluído com sucesso",
+                    buttons: ['Ok']
+                })
+                event.reply('reset-form')
+            } catch (error) {
+                console.log(error)
+            }
+        }
     })
-})
-
+}
+)
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

@@ -78,7 +78,7 @@ function buscarCliente() {
         // restaurar o comportamento padrão da tecla Enter
         //removerTeclaEnter()
         let setarNomeCliente = document.getElementById('inputSearch').value.trim()
-        document.getElementById('inputnameCliente').value = setarNomeCliente
+        document.getElementById('inputnameCliente').value += setarNomeCliente
         document.getElementById('inputSearch').value = ""
         document.getElementById('inputSearch').disabled = true
         document.getElementById('inputSearch').blur()
@@ -141,7 +141,7 @@ function excluirCliente() {
 }
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-// Reset do formulário
+// Reset do formulário apos o envio
 api.resetForm((args) => {
     resetForm()   
 })
@@ -154,5 +154,9 @@ function resetForm() {
     btnRead.disabled = false
     btnUpdate.disabled = true
     btnDelete.disabled = true
+    document.getElementById('inputId').value = ""
+    document.getElementById('inputnameCliente').value = ""
+    document.getElementById('inputphoneCliente').value = ""
+    document.getElementById('inputAddressCliente').value = ""
     //document.getElementById("frmCliente").addEventListener("keydown", teclaEnter)
 }

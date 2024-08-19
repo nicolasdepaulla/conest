@@ -35,7 +35,8 @@ contextBridge.exposeInMainWorld('api', {
     infoSearchDialogForn: () => ipcRenderer.send('dialog-infoSearchDialogForn'), // permitir um pedido ao main
     focusSearchForn: (args) => ipcRenderer.on('focus-searchForn', args),
     updateFornecedor: (fornecedor) => ipcRenderer.send('update-fornecedor', fornecedor),
-    deleteFornecedor: (idForn) => ipcRenderer.send('delete-fornecedor', idForn)
+    deleteFornecedor: (idForn) => ipcRenderer.send('delete-fornecedor', idForn),
+    resetForm:(args) => ipcRenderer.on('reset-form' ,args)
 })
 
 // Inserir data na página
